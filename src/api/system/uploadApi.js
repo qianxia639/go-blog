@@ -3,11 +3,11 @@ import service from '@/utils/request'
 /**
  * markdown文件上传
  */
-export const mdFile = ( {...data}) => {
+export const uploadFile = (params) => {
     return service({
         url: '/upload/mdFile',
         method: 'post',
-        data: {...data},
+        data: params,
         headers: {
             'Content-Type': 'multipart/form-data'
         }

@@ -43,7 +43,7 @@
                   v-model="blog.content"
                   :ishljs="true"
                   @imgAdd="$imgAdd"
-                  @change="change"
+                  @imgDel="$imgDel"
                   ref="md"
                 ></mavon-editor>
               </b-input-group>
@@ -164,9 +164,10 @@
 <script>
 import { mavonEditor } from "mavon-editor";
 import "mavon-editor/dist/css/index.css";
-import { typeList } from "../../../api/example/typeApi";
-import { tagList } from "../../../api/example/tagApi";
-import { saveBlog } from "../../../api/example/blogApi";
+import { typeList } from "@/api/example/typeApi";
+import { tagList } from "@/api/example/tagApi";
+import { saveBlog } from "@/api/example/blogApi";
+import { uploadFile } from "@/api/system/uploadApi";
 import "github-markdown-css/github-markdown.css";
 export default {
   name: "Markdown",
@@ -186,8 +187,7 @@ export default {
       },
       tagOptions: [],
       search: "",
-      uploadToken: {},
-      form: { content: "" },
+      img_file: {},
     };
   },
   computed: {
@@ -235,7 +235,8 @@ export default {
       saveBlog(this.blog)
         .then((res) => {
           if (res.data.state) {
-            this.$router.replace({ name: "Index" });
+            this.uploadImg()
+            // this.$router.replace({ name: "Index" });
           }
         })
         .catch((err) => {
@@ -251,24 +252,34 @@ export default {
       this.search = "";
     },
 
-    change(value, render) {
-      this.form.content = render;
+    //
+    $imgAdd(pos,$file) {
+      // 缓存图片信息
+      this.img_file[pos] = $file
     },
-    // 图片上传
-    $imgAdd(pos, $file) {
+    $imgDel(pos) {
+      delete this.img_file[pos];
+    },
+    uploadImg(pos) {
+      // 将图片上传到服务器
       let formData = new FormData();
-      formData.append("file", $file);
-      this.axios({
-        url: "http://localhost:6754/upload/mdFile",
-        method: "post",
-        data: formData,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }).then((res) => {
-        this.$refs.md.$img2Url(pos, res.data.url);
+      for (var _img in this.img_file) {
+        formData.append("files", this.img_file[_img]);
+      }
+      uploadFile(formData).then((res) => {
+        for (var img in res.data.url) {
+          this.$refs.md.$img2Url(res.data.url[img]);
+        }
       });
     },
+    //图片上传
+    // $imgAdd(pos, $file) {
+    //   let formData = new FormData();
+    //   formData.append("file", $file);
+    //   uploadFile(formData).then((res) => {
+    //     this.$refs.md.$img2Url(pos, res.data.url);
+    //   });
+    // },
   },
   created() {
     this.getTypeList();

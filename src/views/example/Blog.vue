@@ -3,10 +3,10 @@
     <b-container fluid class="bv-example-row">
       <b-row>
         <b-col>
-          <b-card style="margin-top: 5vh">
-            <div>
+          <b-card no-body style="margin-top: 5vh">
+            <b-card-text>
               <ol class="js-toc"></ol>
-            </div>
+            </b-card-text>
           </b-card>
         </b-col>
         <b-col style="margin-top: 5vh" md="10">
@@ -73,11 +73,19 @@
 
       <div class="m-padding m-fixed m-right-bottom">
         <b-button-group vertical>
+          <b-button variant="info" href="#" tabindex="0" id="tocbot-button">
+            <b-icon icon="list"></b-icon>
+          </b-button>
           <a href="#" class="btn btn-secondary"
             ><b-icon icon="chevron-up"></b-icon
           ></a>
         </b-button-group>
       </div>
+      <b-tooltip target="tocbot-button" placement="left" triggers="focus">
+        <div>
+          <ol class="js-toc"></ol>
+        </div>
+      </b-tooltip>
     </b-container>
   </div>
 </template>
@@ -87,20 +95,21 @@ import VueMarkdown from "vue-markdown";
 // import "github-markdown-css/github-markdown-dark.css";
 
 import "@/assets/css/typo.css";
+// import "tocbot/static/css/tocbot.css"
 // import "tocbot/dist/tocbot.css"
 import tocbot from "tocbot";
 // markdown-body
 import storageService from "@/api/system/storageApi";
-tocbot.init({
-  // Where to render the table of contents.
-  tocSelector: ".js-toc",
-  // Where to grab the headings to build the table of contents.
-  contentSelector: ".js-toc-content",
-  // Which headings to grab inside of the contentSelector element.
-  headingSelector: "h1, h2, h3",
-  // For headings inside relative or absolute positioned containers within content.
-  hasInnerContainers: true,
-});
+// tocbot.init({
+//   // Where to render the table of contents.
+//   tocSelector: ".js-toc",
+//   // Where to grab the headings to build the table of contents.
+//   contentSelector: ".js-toc-content",
+//   // Which headings to grab inside of the contentSelector element.
+//   headingSelector: "h1, h2, h3",
+//   // For headings inside relative or absolute positioned containers within content.
+//   hasInnerContainers: true,
+// });
 export default {
   components: {
     VueMarkdown,
@@ -113,6 +122,18 @@ export default {
   methods: {},
   created() {
     this.blogs = JSON.parse(storageService.get("blogs"));
+  },
+  mounted() {
+    tocbot.init({
+      // Where to render the table of contents.
+      tocSelector: ".js-toc",
+      // Where to grab the headings to build the table of contents.
+      contentSelector: ".js-toc-content",
+      // Which headings to grab inside of the contentSelector element.
+      headingSelector: "h1, h2, h3",
+      // For headings inside relative or absolute positioned containers within content.
+      hasInnerContainers: true,
+    });
   },
 };
 </script>
