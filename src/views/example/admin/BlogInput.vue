@@ -235,8 +235,8 @@ export default {
       saveBlog(this.blog)
         .then((res) => {
           if (res.data.state) {
-            this.uploadImg()
-            // this.$router.replace({ name: "Index" });
+            // this.uploadImg()
+            this.$router.replace({ name: "Index" });
           }
         })
         .catch((err) => {

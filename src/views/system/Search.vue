@@ -26,7 +26,7 @@
                       <!-- 标题 -->
                       <h5 class="mb-1" style="margin-top: 2vh">
                         <b-link
-                          @click="getBlog(item.blogId)"
+                          @click="getBlog(item.id)"
                           class="card-link"
                           target="_blank"
                           >{{ item.title }}</b-link
@@ -65,7 +65,7 @@
                         <small class="text-muted">
                           <b-icon icon="tag-fill"></b-icon>
                           &nbsp;<span
-                            v-for="row in item.tagNames"
+                            v-for="row in item.Tags"
                             :key="row.index"
                             >{{ row.tagName + "\、" }}</span
                           >
@@ -115,7 +115,8 @@ export default {
       getBlog({ id: id }).then((res) => {
         if (res.data.state) {
           storageService.set("blogs", JSON.stringify(res.data.data.blogs));
-          this.$router.push({ name: "Blog" });
+          let url = this.$router.resolve({ name: "Blog" });
+          window.open(url.href, "_blank");
         }
       });
     },

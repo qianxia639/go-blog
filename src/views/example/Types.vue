@@ -16,7 +16,7 @@
                     <b-media-body class="ml-3">
                       <h5 class="mb-1" style="margin-top: 2vh">
                         <b-link
-                          @click="getBlog(item.blogId)"
+                          @click="getBlog(item.id)"
                           class="card-link"
                           >{{ item.title }}</b-link
                         >
@@ -45,7 +45,7 @@
                         <small class="text-muted">
                           <b-icon icon="tag-fill"></b-icon>
                           &nbsp;<span
-                            v-for="row in item.tagNames"
+                            v-for="row in item.Tags"
                             :key="row.index"
                             >{{ row.tagName + "\、" }}</span
                           >
@@ -114,7 +114,7 @@ export default {
       typeList: [],
       pages: {
         total: 0,
-        pageSie: 6,
+        pageSize: 6,
         pageNum: 1,
       },
     };
@@ -150,12 +150,14 @@ export default {
       const options = {
         params: {
           id: id,
-          paginate: this.pagination.per_page,
-          page: this.pagination.current_page,
+          pageSize: this.pages.pageSize,
+          pageNum: this.pages.pageNum,
         },
       };
       typePageList(options).then((res) => {
-        this.pagination = res.data.data.pagination;
+        this.pages.total = res.data.total;
+        this.pages.pageSize = res.data.pageSize;
+        this.pages.pageNum = res.data.pageNum;
         this.pageInfo = res.data.data.dataList;
       });
     },
