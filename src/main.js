@@ -7,7 +7,8 @@ import Vuelidate from 'vuelidate'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 // scss style
-import './assets/scss/custom.scss'
+import '@/assets/scss/custom.scss'
+import message from '@/assets/js/message'
 
 // app.js
 // import 'bootstrap/dist/css/bootstrap.css'
@@ -30,6 +31,7 @@ Vue.use(IconsPlugin)
 Vue.use(Vuelidate)
 Vue.use(VueAxios, axios)
 Vue.use(Highlight)
+Vue.use(message)
 
 new Vue({
   router,

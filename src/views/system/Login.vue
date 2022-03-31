@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { required } from "vuelidate/lib/validators";
+import { required,email } from "vuelidate/lib/validators";
 import validator from "@/utils/validator";
 import storageService from "@/api/system/storageApi";
 import { login, info } from "@/api/system/userApi";
@@ -64,6 +64,7 @@ export default {
     user: {
       email: {
         required,
+        email
       },
       password: {
         required,
@@ -101,11 +102,12 @@ export default {
           window.location.href = "/index";
         })
         .catch((err) => {
-          this.$bvToast.toast(err.response.data.msg, {
-            title: "数据验证错误",
-            variant: "danger",
-            solid: true,
-          });
+          // this.$bvToast.toast(err.response.data.msg, {
+          //   title: "数据验证错误",
+          //   variant: "danger",
+          //   solid: true,
+          // });
+          this.$message({message: err.response.data.msg, type: 'error'})
         });
     },
   },

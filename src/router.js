@@ -3,25 +3,6 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-// export default new Router({
-//   mode: 'history',
-//   base: process.env.BASE_URL,
-//   routes: [
-//     {
-//       path: '/',
-//       name: 'home',
-//       component: Home
-//     },
-//     {
-//       path: '/about',
-//       name: 'about',
-//       // route level code-splitting
-//       // this generates a separate chunk (about.[hash].js) for this route
-//       // which is lazy-loaded when the route is visited.
-//       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
-//     }
-//   ]
-// })
 const routes = [
   {
     path: '/',
@@ -124,7 +105,7 @@ const router = new Router({
 //     isLogin ? next() : next('/account/login')
 //   }
 // })
-router.beforeEach((to, from, next) => {
+router.beforeEach(async(to, from, next) => {
   /* 路由发生变化修改页面title */
   if (to.meta.title) {
     document.title = to.meta.title

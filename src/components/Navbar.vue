@@ -101,24 +101,22 @@
 </template>
 
 <script>
-import storageService from "../api/system/storageApi";
-import { updateUsername, info } from "../api/system/userApi";
+import storageApi from "@/api/system/storageApi";
+import { updateUsername, info } from "@/api/system/userApi";
 export default {
   name: "Navbar",
   computed: {
     userInfo() {
-      return storageService.get(storageService.USER_INFO)
-        ? JSON.parse(storageService.get(storageService.USER_INFO))
+      return storageApi.get(storageApi.USER_INFO)
+        ? JSON.parse(storageApi.get(storageApi.USER_INFO))
         : null;
       // return this.$store.state.userModule.userInfo
     },
   },
   methods: {
     logout() {
-      storageService.remove(storageService.USER_TOKEN);
-      storageService.remove(storageService.USER_INFO);
+      storageApi.clear()
       window.location.href = "/";
-      // window.location.reload()
     },
     update(username) {
       var username = document.getElementById("nested-username").value;

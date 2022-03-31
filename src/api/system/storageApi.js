@@ -12,12 +12,15 @@ const set = (key, data) => {
 const get = (key) => localStorage.getItem(key)
 
 // 删除
-const remove = (key) => localStorage.removeItem(key)
+const clear = () => {
+    localStorage.removeItem(USER_TOKEN)
+    localStorage.removeItem(USER_INFO)
+}
 
 export default {
     set,
     get,
-    remove,
+    clear,
     USER_TOKEN,
     USER_INFO
 }

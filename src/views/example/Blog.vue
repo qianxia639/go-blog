@@ -62,7 +62,7 @@
                 <small class="text-muted" style="margin-top: 5vh">
                   <b-icon icon="tag-fill"></b-icon>
                   &nbsp;<span v-for="row in blogs.tagNames" :key="row.index">{{
-                    row.tagName + "\、"
+                    row.tagName + "  "
                   }}</span>
                 </small>
               </b-list-group-item>
@@ -73,7 +73,7 @@
 
       <div class="m-padding m-fixed m-right-bottom">
         <b-button-group vertical>
-          <b-button variant="info" href="#" tabindex="0" id="tocbot-button">
+          <b-button variant="info" >
             <b-icon icon="list"></b-icon>
           </b-button>
           <a href="#" class="btn btn-secondary"
@@ -81,11 +81,6 @@
           ></a>
         </b-button-group>
       </div>
-      <b-tooltip target="tocbot-button" placement="left" triggers="focus">
-        <div>
-          <ol class="js-toc"></ol>
-        </div>
-      </b-tooltip>
     </b-container>
   </div>
 </template>
@@ -158,6 +153,6 @@ a.disabled {
   left: 100;
 }
 .m-padding {
-  padding: 1em;
+  padding: 1.5em;
 }
 </style>

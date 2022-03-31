@@ -19,4 +19,13 @@ service.interceptors.request.use((config) => {
     return Promise.reject(error);
 })
 
+service.interceptors.response.use((resp) => {
+    if (resp.data.code === 401) {
+        this.$router.replace({ name: "Login" });
+    }
+    return resp
+},(error) => {
+    return Promise.reject(error)
+})
+
 export default service;

@@ -240,11 +240,12 @@ export default {
           }
         })
         .catch((err) => {
-          this.$bvToast.toast(err.response.data.msg, {
-            title: "数据验证错误",
-            variant: "danger",
-            solid: true,
-          });
+          // this.$bvToast.toast(err.response.data.msg, {
+          //   title: "数据验证错误",
+          //   variant: "danger",
+          //   solid: true,
+          // });
+          this.$message({message: err.response.data.msg, type: 'error'})
         });
     },
     onOptionClick({ option, addTag }) {

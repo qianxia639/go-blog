@@ -68,7 +68,7 @@
                           &nbsp;<span
                             v-for="row in item.Tags"
                             :key="row.index"
-                            >{{ row.tagName + "\、" }}</span
+                            >{{ row.tagName + "  " }}</span
                           >
                         </small>
                         <!-- 分类 -->

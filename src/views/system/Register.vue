@@ -5,22 +5,6 @@
         <b-card>
           <b-card-title style="text-align: center">注册</b-card-title>
           <b-form>
-            <!-- 用户名
-            <b-input-group class="mb-2">
-              <b-input-group-prepend is-text>
-                <b-icon icon="person"></b-icon>
-              </b-input-group-prepend>
-              <b-form-input
-                autofocus
-                v-model="$v.user.username.$model"
-                type="text"
-                placeholder="请输入用户名"
-                :state="validateState('username')"
-              ></b-form-input>
-              <b-form-invalid-feedback :state="validateState('username')">
-                用户名不能为空
-              </b-form-invalid-feedback>
-            </b-input-group> -->
             <!-- 邮箱 -->
             <b-input-group class="mb-2">
               <b-input-group-prepend is-text>
@@ -127,11 +111,12 @@ export default {
           }
         })
         .catch((err) => {
-          this.$bvToast.toast(err.response.data.msg, {
-            title: "数据验证错误",
-            variant: "danger",
-            solid: true,
-          });
+          // this.$bvToast.toast(err.response.data.msg, {
+          //   title: "数据验证错误",
+          //   variant: "danger",
+          //   solid: true,
+          // });
+          this.$message({message: err.response.data.msg, type: 'error'})
         });
     },
   },

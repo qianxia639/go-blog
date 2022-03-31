@@ -167,8 +167,8 @@
 </template>
 
 <script>
-import { blogList, remove, getUpdateBlog, update } from "../../../api/example/blogApi";
-import { searchPriBlog } from "../../../api/system/searchApi";
+import { blogList, remove, getUpdateBlog, update } from "@/api/example/blogApi";
+import { searchPriBlog } from "@/api/system/searchApi";
 import Moment from "moment";
 
 import { mavonEditor } from "mavon-editor";
@@ -224,11 +224,12 @@ export default {
       if (confirm("是否要删除?")) {
         remove({ id: id }).then((res) => {
           if (res.data.state) {
-            this.$bvToast.toast(res.data.msg, {
-              variant: "success",
-              solid: true,
-              autoHideDelay: 3000,
-            });
+            // this.$bvToast.toast(res.data.msg, {
+            //   variant: "success",
+            //   solid: true,
+            //   autoHideDelay: 3000,
+            // });
+            this.$message({message: err.response.data.msg, type: 'success'})
             location.reload();
           }
         });
@@ -246,11 +247,12 @@ export default {
     update() {
       update(this.blog).then((res) => {
         if (res.data.state) {
-          this.$bvToast.toast(res.data.msg, {
-            variant: "success",
-            solid: true,
-            autoHideDelay: 3000,
-          });
+          // this.$bvToast.toast(res.data.msg, {
+          //   variant: "success",
+          //   solid: true,
+          //   autoHideDelay: 3000,
+          // });
+          this.$message({message: err.response.data.msg, type: 'success'})
           this.$refs["close-edit-modal"].hide();
         }
       });
