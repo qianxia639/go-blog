@@ -27,7 +27,7 @@
                     blogs.username
                   }}</b-link>
                   <b-link disabled class="card-link">
-                    <b-icon icon="calendar"></b-icon>&nbsp;更新于:
+                    <b-icon icon="clock"></b-icon>&nbsp;更新于:
                     {{ blogs.updatedAt }}
                   </b-link>
                   <b-link disabled class="card-link">

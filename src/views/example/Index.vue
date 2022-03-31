@@ -91,7 +91,15 @@
                   </b-media>
                 </b-card>
               </ul>
-              <b-list-group-item> </b-list-group-item>
+              <b-list-group-item>
+                <b-pagination
+                  v-model="pages.pageNum"
+                  :total-rows="pages.total"
+                  :per-page="pages.pageSize"
+                  align="right"
+                >
+                </b-pagination>
+              </b-list-group-item>
             </b-card>
           </b-card-group>
         </b-col>
@@ -221,12 +229,14 @@ export default {
           pageNum: this.pages.pageNum,
         },
       };
-      pageList(options).then((res) => {
-        this.pages.total = res.data.total;
-        this.pages.pageSize = res.data.pageSize;
-        this.pages.pageNum = res.data.pageNum;
+      pageList(options).then((resp) => {
+        var res = resp.data.data;
 
-        this.pageInfo = res.data.data.dataList;
+        this.pages.total = res.total;
+        this.pages.pageSize = res.pageSize;
+        this.pages.pageNum = res.pageNum;
+
+        this.pageInfo = res.dataList;
       });
     },
     // 获取推荐列表

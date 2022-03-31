@@ -79,21 +79,15 @@
                     >
                   </td>
                 </tr>
-                <tr>
-                  <td colspan="4">
-                    <b-pagination
-                      v-model="pages.pageNum"
-                      :total-rows="pages.total"
-                      :per-page="pages.pageNum"
-                      aria-controls="my-table"
-                    >
-                    </b-pagination>
-                  </td>
-                </tr>
               </tbody>
             </table>
-
-
+            <b-pagination
+              v-model="pages.pageNum"
+              :total-rows="pages.total"
+              :per-page="pages.pageSize"
+              align="right"
+            >
+            </b-pagination>
             <!-- 编辑模态框 -->
             <b-modal
               id="edit-blog-modal"
@@ -109,21 +103,23 @@
                 <!-- 描述 -->
                 <b-input-group>
                   <b-form-textarea
-                    v-model="blog.description"
+                    v-model="$v.blog.description.$model"
                     autofocus
                     placeholder="请输入描述内容"
                     no-resize
                     class="pre-scrollabl"
+                    :state="validateState('description')"
                   >
                   </b-form-textarea>
                 </b-input-group>
                 <!-- 标题 -->
                 <b-input-group>
                   <b-form-input
-                    v-model="blog.title"
+                    v-model="$v.blog.title.$model"
                     style="margin-top: 1vh"
                     type="text"
                     placeholder="标题"
+                    :state="validateState('title')"
                   >
                   </b-form-input>
                 </b-input-group>
@@ -139,10 +135,16 @@
                 <!-- 标记 -->
                 <b-input-group style="margin-top: 1vh">
                   <b-form-group label="请选择(单选):">
-                    <b-form-radio-group v-model="blog.flag">
-                      <b-form-radio value="原创">原创</b-form-radio>
-                      <b-form-radio value="转载">转载</b-form-radio>
-                      <b-form-radio value="翻译">翻译</b-form-radio>
+                    <b-form-radio-group v-model="$v.blog.flag.$model">
+                      <b-form-radio :state="validateState('flag')" value="原创"
+                        >原创</b-form-radio
+                      >
+                      <b-form-radio :state="validateState('flag')" value="转载"
+                        >转载</b-form-radio
+                      >
+                      <b-form-radio :state="validateState('flag')" value="翻译"
+                        >翻译</b-form-radio
+                      >
                     </b-form-radio-group>
                   </b-form-group>
                 </b-input-group>
@@ -167,6 +169,7 @@
 </template>
 
 <script>
+import { required, minLength, maxLength } from "vuelidate/lib/validators";
 import { blogList, remove, getUpdateBlog, update } from "@/api/example/blogApi";
 import { searchPriBlog } from "@/api/system/searchApi";
 import Moment from "moment";
@@ -199,7 +202,32 @@ export default {
       },
     };
   },
+  validations: {
+    blog: {
+      description: {
+        required,
+        minLength: minLength(10),
+        maxLength: maxLength(100),
+      },
+      title: {
+        required,
+        maxLength: maxLength(15),
+      },
+      flag: {
+        required,
+      },
+    },
+  },
+  computed: {
+    rows() {
+      return this.pages.total;
+    },
+  },
   methods: {
+    validateState(name) {
+      const { $dirty, $error } = this.$v.blog[name];
+      return $dirty ? !$error : null;
+    },
     timestampToTime(timestamp, str) {
       const stamp = new Date(timestamp * 1000);
       return Moment(stamp).format(str);
@@ -208,15 +236,18 @@ export default {
     getList() {
       const options = {
         params: {
-          pageSize: this.pages.pageSize,
-          pageNum: this.pages.pageNum,
+          pageSize: this.pages.perPage,
+          pageNum: this.pages.currentPage,
         },
       };
-      blogList(options).then((res) => {
-        this.pages.total = res.data.total;
-        this.pages.pageSize = res.data.pageSize;
-        this.pages.pageNum = res.data.pageNum;
-        this.blogList = res.data.data.dataList;
+      blogList(options).then((resp) => {
+         var res = resp.data.data
+
+        this.pages.total = res.total;
+        this.pages.pageSize = res.pageSize;
+        this.pages.pageNum = res.pageNum;
+        
+        this.blogList = res.dataList;
       });
     },
     // 删除博客
@@ -229,7 +260,7 @@ export default {
             //   solid: true,
             //   autoHideDelay: 3000,
             // });
-            this.$message({message: err.response.data.msg, type: 'success'})
+            this.$message({ message: res.data.msg, type: "success" });
             location.reload();
           }
         });
@@ -245,6 +276,11 @@ export default {
     },
     // 更新博客
     update() {
+      // 验证数据
+      this.$v.blog.$touch();
+      if (this.$v.blog.$anyError) {
+        return;
+      }
       update(this.blog).then((res) => {
         if (res.data.state) {
           // this.$bvToast.toast(res.data.msg, {
@@ -252,7 +288,7 @@ export default {
           //   solid: true,
           //   autoHideDelay: 3000,
           // });
-          this.$message({message: err.response.data.msg, type: 'success'})
+          this.$message({ message: res.data.msg, type: "success" });
           this.$refs["close-edit-modal"].hide();
         }
       });
@@ -268,11 +304,12 @@ export default {
           pageNum: this.pages.pageNum,
         },
       };
-      searchPriBlog(options).then((res) => {
-        this.pages.total = res.data.total;
-        this.pages.pageSize = res.data.pageSize;
-        this.pages.pageNum = res.data.pageNum;
-        this.blogList = res.data.data.dataList;
+      searchPriBlog(options).then((resp) => {
+        var res = resp.data.data
+        this.pages.total = restotal;
+        this.pages.pageSize = respageSize;
+        this.pages.pageNum = res.pageNum;
+        this.blogList = res.dataList;
       });
     },
   },

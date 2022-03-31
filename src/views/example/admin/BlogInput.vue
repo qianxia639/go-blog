@@ -18,11 +18,12 @@
               <!-- 描述 -->
               <b-input-group>
                 <b-form-textarea
-                  v-model.trim="blog.description"
+                  v-model.trim="$v.blog.description.$model"
                   autofocus
-                  placeholder="请输入描述内容"
+                  placeholder="请输入描述内容(100字以内)"
                   no-resize
                   class="pre-scrollabl"
+                  :state="validateState('description')"
                 >
                 </b-form-textarea>
               </b-input-group>
@@ -30,9 +31,10 @@
               <b-input-group>
                 <b-form-input
                   style="margin-top: 1vh"
-                  v-model.trim="blog.title"
+                  v-model.trim="$v.blog.title.$model"
                   type="text"
                   placeholder="标题"
+                  :state="validateState('title')"
                 >
                 </b-form-input>
               </b-input-group>
@@ -50,17 +52,17 @@
               <!-- 标记 -->
               <b-input-group style="margin-top: 1vh">
                 <b-form-group label="请选择(单选):">
-                  <b-form-radio-group v-model="blog.flag">
-                    <b-form-radio value="原创">原创</b-form-radio>
-                    <b-form-radio value="转载">转载</b-form-radio>
-                    <b-form-radio value="翻译">翻译</b-form-radio>
+                  <b-form-radio-group v-model="$v.blog.flag.$model" >
+                    <b-form-radio :state="validateState('flag')" value="原创">原创</b-form-radio>
+                    <b-form-radio :state="validateState('flag')" value="转载">转载</b-form-radio>
+                    <b-form-radio :state="validateState('flag')" value="翻译">翻译</b-form-radio>
                   </b-form-radio-group>
                 </b-form-group>
               </b-input-group>
               <!-- 分类 -->
               <span>选择分类:</span>
               <b-input-group>
-                <b-form-select v-model="blog.typeId" class="mb-3">
+                <b-form-select v-model="$v.blog.typeId.$model" class="mb-3" :state="validateState('typeId')">
                   <template v-slot:first>
                     <b-form-select-option value="" disabled
                       >-- 请选择分类 --</b-form-select-option
@@ -77,7 +79,7 @@
               </b-input-group>
               <!-- 标签 -->
               <b-form-group label="使用下拉菜单选择标签:">
-                <b-form-tags v-model="blog.tags" no-outer-focus class="mb-2">
+                <b-form-tags v-model="$v.blog.tags.$model" no-outer-focus class="mb-2" :state="validateState('tags')">
                   <template v-slot="{ tags, disabled, addTag, removeTag }">
                     <ul
                       v-if="tags.length > 0"
@@ -162,6 +164,7 @@
 </template>
 
 <script>
+import { required, minLength, maxLength } from "vuelidate/lib/validators";
 import { mavonEditor } from "mavon-editor";
 import "mavon-editor/dist/css/index.css";
 import { typeList } from "@/api/example/typeApi";
@@ -189,6 +192,28 @@ export default {
       search: "",
       img_file: {},
     };
+  },
+  validations: {
+    blog: {
+      description: {
+        required,
+        minLength: minLength(10),
+        maxLength: maxLength(100)
+      },
+      title: {
+        required,
+        maxLength: maxLength(15)
+      },
+      flag: {
+        required
+      },
+      typeId: {
+        required
+      },
+      tags: {
+        required
+      }
+    }
   },
   computed: {
     criteria() {
@@ -218,6 +243,10 @@ export default {
     },
   },
   methods: {
+    validateState(name) {
+      const { $dirty, $error } = this.$v.blog[name];
+      return $dirty ? !$error : null;
+    },
     // 获取分类列表
     getTypeList() {
       typeList().then((res) => {
@@ -232,11 +261,17 @@ export default {
     },
     // 发布博客
     saveBlog() {
+      // 验证数据
+      this.$v.blog.$touch();
+      if (this.$v.blog.$anyError) {
+        return;
+      }
       saveBlog(this.blog)
         .then((res) => {
           if (res.data.state) {
             // this.uploadImg()
-            this.$router.replace({ name: "Index" });
+            // this.$router.replace({ name: "Index" });
+            this.$message({message: "发布成功", type: 'success'})
           }
         })
         .catch((err) => {
