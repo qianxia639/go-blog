@@ -55,9 +55,7 @@
                       }}</b-link>
 
                       <!-- 更新时间 -->
-                      <b-link disabled class="card-link">{{
-                        item.updatedAt
-                      }}</b-link>
+                      <b-link disabled class="card-link">{{ timestampToTime(item.updatedAt, "YYYY-MM-DD") }}</b-link>
 
                       <br />
 
@@ -186,6 +184,7 @@ import storageService from "@/api/system/storageApi";
 import { listOrder } from "@/api/example/typeApi";
 import { pageList, latestList, getBlog } from "@/api/example/blogApi";
 import { searchBlog } from "@/api/system/searchApi";
+import Moment from "moment";
 // import "animate.css";
 export default {
   // name: "Navbar",
@@ -215,6 +214,10 @@ export default {
     };
   },
   methods: {
+    timestampToTime(timestamp, str) {
+      const stamp = new Date(timestamp * 1000);
+      return Moment(stamp).format(str);
+    },
     // 分类
     getTypeList() {
       listOrder().then((res) => {

@@ -52,17 +52,26 @@
               <!-- 标记 -->
               <b-input-group style="margin-top: 1vh">
                 <b-form-group label="请选择(单选):">
-                  <b-form-radio-group v-model="$v.blog.flag.$model" >
-                    <b-form-radio :state="validateState('flag')" value="原创">原创</b-form-radio>
-                    <b-form-radio :state="validateState('flag')" value="转载">转载</b-form-radio>
-                    <b-form-radio :state="validateState('flag')" value="翻译">翻译</b-form-radio>
+                  <b-form-radio-group v-model="$v.blog.flag.$model">
+                    <b-form-radio :state="validateState('flag')" value="原创"
+                      >原创</b-form-radio
+                    >
+                    <b-form-radio :state="validateState('flag')" value="转载"
+                      >转载</b-form-radio
+                    >
+                    <b-form-radio :state="validateState('flag')" value="翻译"
+                      >翻译</b-form-radio
+                    >
                   </b-form-radio-group>
                 </b-form-group>
               </b-input-group>
               <!-- 分类 -->
               <span>选择分类:</span>
               <b-input-group>
-                <b-form-select v-model="$v.blog.typeId.$model" class="mb-3" :state="validateState('typeId')">
+                <b-form-select
+                  v-model="$v.blog.typeId.$model"
+                  :state="validateState('typeId')"
+                >
                   <template v-slot:first>
                     <b-form-select-option value="" disabled
                       >-- 请选择分类 --</b-form-select-option
@@ -78,8 +87,16 @@
                 </b-form-select>
               </b-input-group>
               <!-- 标签 -->
-              <b-form-group label="使用下拉菜单选择标签:">
-                <b-form-tags v-model="$v.blog.tags.$model" no-outer-focus class="mb-2" :state="validateState('tags')">
+              <b-form-group
+                label="使用下拉菜单选择标签:"
+                description="该选项在博客提交之后将无法更改,请慎重选择"
+              >
+                <b-form-tags
+                  v-model="$v.blog.tags.$model"
+                  no-outer-focus
+                  class="mb-2"
+                  :state="validateState('tags')"
+                >
                   <template v-slot="{ tags, disabled, addTag, removeTag }">
                     <ul
                       v-if="tags.length > 0"
@@ -198,22 +215,22 @@ export default {
       description: {
         required,
         minLength: minLength(10),
-        maxLength: maxLength(100)
+        maxLength: maxLength(100),
       },
       title: {
         required,
-        maxLength: maxLength(15)
+        maxLength: maxLength(15),
       },
       flag: {
-        required
+        required,
       },
       typeId: {
-        required
+        required,
       },
       tags: {
-        required
-      }
-    }
+        required,
+      },
+    },
   },
   computed: {
     criteria() {
@@ -271,7 +288,7 @@ export default {
           if (res.data.state) {
             // this.uploadImg()
             // this.$router.replace({ name: "Index" });
-            this.$message({message: "发布成功", type: 'success'})
+            this.$message({ message: "发布成功", type: "success" });
           }
         })
         .catch((err) => {
@@ -280,7 +297,7 @@ export default {
           //   variant: "danger",
           //   solid: true,
           // });
-          this.$message({message: err.response.data.msg, type: 'error'})
+          this.$message({ message: err.response.data.msg, type: "error" });
         });
     },
     onOptionClick({ option, addTag }) {
@@ -289,9 +306,9 @@ export default {
     },
 
     //
-    $imgAdd(pos,$file) {
+    $imgAdd(pos, $file) {
       // 缓存图片信息
-      this.img_file[pos] = $file
+      this.img_file[pos] = $file;
     },
     $imgDel(pos) {
       delete this.img_file[pos];

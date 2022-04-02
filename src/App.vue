@@ -37,28 +37,28 @@ export default {
 //   }
 // }
 #app {
-      background: url("./assets/image/bg.jpeg");
-      background-size: 100% 100%;
-      height: 100%;
-      width: 100%;
-      top: 0;
-      bottom: 0;
-      position: fixed;
-      overflow-x: hidden;
-      overflow-y: scroll;
-      filter: alpha(opacity=80);
-    }
-    /*半透明样式*/
-    nav,
-    footer {
-      opacity: 0.6 !important;
-    }
+  background: url("./assets/image/bg.jpeg");
+  background-size: 100% 100%;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  position: fixed;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  filter: alpha(opacity=80);
+}
+/*半透明样式*/
+nav,
+footer {
+  opacity: 0.6 !important;
+}
 
-    #weather-float-he {
-      opacity: 0.5 !important;
-    }
+#weather-float-he {
+  opacity: 0.5 !important;
+}
 
-    div {
-      opacity: 0.98 !important;
-    }
+div {
+  opacity: 0.98 !important;
+}
 </style>

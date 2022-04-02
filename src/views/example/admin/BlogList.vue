@@ -306,8 +306,8 @@ export default {
       };
       searchPriBlog(options).then((resp) => {
         var res = resp.data.data
-        this.pages.total = restotal;
-        this.pages.pageSize = respageSize;
+        this.pages.total = res.total;
+        this.pages.pageSize = res.pageSize;
         this.pages.pageNum = res.pageNum;
         this.blogList = res.dataList;
       });

@@ -36,9 +36,7 @@
                       <b-link to="/account/login" class="card-link">{{
                         item.username
                       }}</b-link>
-                      <b-link disabled class="card-link">{{
-                        item.updatedAt
-                      }}</b-link>
+                      <b-link disabled class="card-link">{{ timestampToTime(item.updatedAt, "YYYY-MM-DD") }}</b-link>
 
                       <br />
                       <div class="d-flex justify-content-between">
