@@ -23,7 +23,8 @@
             </b-input-group>
             <!-- 密码 -->
             <b-input-group class="mb-2">
-              <b-input-group-prepend is-text>
+              
+               <b-input-group-prepend is-text>
                 <b-icon icon="lock"></b-icon>
               </b-input-group-prepend>
               <b-form-input

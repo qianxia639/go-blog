@@ -43,12 +43,12 @@
 
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto" v-if="!userInfo">
-          <b-nav-item v-if="$route.name != 'Login'" to="/account/login"
+          <b-nav-item to="/account/login"
             >登录</b-nav-item
           >
-          <b-nav-item v-if="$route.name != 'Register'" to="/account/register"
+          <!-- <b-nav-item v-if="$route.name != 'Register'" to="/account/register"
             >注册</b-nav-item
-          >
+          > -->
         </b-navbar-nav>
 
         <b-navbar-nav class="ml-auto" v-if="userInfo">
@@ -126,8 +126,8 @@ export default {
         })
         .then((resp) => {
           if (resp.data.state) {
-            storageService.set(
-              storageService.USER_INFO,
+            storageApi.set(
+              storageApi.USER_INFO,
               JSON.stringify(resp.data.data.user)
             );
             location.reload();

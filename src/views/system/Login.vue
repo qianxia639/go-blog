@@ -39,6 +39,7 @@
             <b-button variant="outline-primary" @click="login" block
               >登录</b-button
             >
+            <b-link to="/account/register">前往注册</b-link>
           </b-form>
         </b-card>
       </b-col>
