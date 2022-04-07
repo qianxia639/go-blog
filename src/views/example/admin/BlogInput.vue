@@ -163,7 +163,7 @@
                 </b-form-tags>
               </b-form-group>
 
-              <div style="margin-top: 1vh" class="blogs-input-footer">
+              <div style="margin-top: 1vh" class="footer-button">
                 <b-button onclick="history.go(-1)">返回</b-button>
                 <b-button
                   @click="saveBlog"
@@ -342,7 +342,7 @@ export default {
 </script>
 
 <style lang="scss">
-.blogs-input-footer {
+.footer-button {
   display: flex;
   flex-wrap: wrap;
   align-items: center;

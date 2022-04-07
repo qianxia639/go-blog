@@ -181,7 +181,7 @@
 </template>
 
 <script>
-import storageService from "@/api/system/storageApi";
+import storageApi from "@/api/system/storageApi";
 import { listOrder } from "@/api/example/typeApi";
 import { pageList, latestList, getBlog } from "@/api/example/blogApi";
 import { searchBlog } from "@/api/system/searchApi";
@@ -191,16 +191,16 @@ export default {
   // name: "Navbar",
   // computed: {
   //   userInfo() {
-  //     return storageService.get(storageService.USER_INFO)
-  //       ? JSON.parse(storageService.get(storageService.USER_INFO))
+  //     return storageApi.get(storageApi.USER_INFO)
+  //       ? JSON.parse(storageApi.get(storageApi.USER_INFO))
   //       : null;
   //     // return this.$store.state.userModule.userInfo
   //   },
   // },
   data() {
     return {
-      userInfo: storageService.get(storageService.USER_INFO)
-        ? JSON.parse(storageService.get(storageService.USER_INFO))
+      userInfo: storageApi.get(storageApi.USER_INFO)
+        ? JSON.parse(storageApi.get(storageApi.USER_INFO))
         : null,
       typeList: [],
       pageInfo: [],
@@ -253,7 +253,7 @@ export default {
     getBlog(id) {
       getBlog({ id: id }).then((res) => {
         if (res.data.state) {
-          storageService.set("blogs", JSON.stringify(res.data.data.blogs));
+          storageApi.set("blogs", JSON.stringify(res.data.data.blogs));
           let url = this.$router.resolve({ name: "Blog" });
           window.open(url.href, "_blank");
         }
@@ -268,8 +268,8 @@ export default {
       };
       searchBlog(options).then((res) => {
         if (res.data.state) {
-          sessionStorage.setItem("total", res.data.data.total);
-          sessionStorage.setItem(
+          storageApi.setItem("total", res.data.data.total);
+          storageApi.setItem(
             "searchList",
             JSON.stringify(res.data.data.dataList)
           );

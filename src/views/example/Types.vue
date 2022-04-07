@@ -101,7 +101,7 @@
 <script>
 import { typeList, typePageList } from "@/api/example/typeApi";
 import { getBlog, pageList } from "@/api/example/blogApi";
-import storageService from "@/api/system/storageApi";
+import storageApi from "@/api/system/storageApi";
 import Moment from "moment";
 
 export default {
@@ -163,7 +163,7 @@ export default {
     getBlog(id) {
       getBlog({ id: id }).then((res) => {
         if (res.data.state) {
-          storageService.set("blogs", JSON.stringify(res.data.data.blogs));
+          storageApi.set("blogs", JSON.stringify(res.data.data.blogs));
           this.$router.push({ path: "/blog" });
         }
       });

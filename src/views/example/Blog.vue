@@ -11,8 +11,8 @@
         </b-col>
         <b-col style="margin-top: 5vh" md="10">
           <b-card-group deck>
-            <!-- 头部 -->
-            <b-card no-body header-tag="header">
+            <b-card no-body header-tag="header" footer-tag="footer">
+              <!-- 头部 -->
               <template v-slot:header>
                 <small>
                   <b-link disabled class="card-link">
@@ -36,6 +36,7 @@
                 </small>
               </template>
 
+              <!-- 中间内容 -->
               <b-list-group-item>
                 <div>
                   <h3 class="d-flex justify-content-center">
@@ -66,6 +67,86 @@
                   }}</span>
                 </small>
               </b-list-group-item>
+
+              <b-card-body>
+                <h3>评论</h3>
+                <hr />
+                <b-media>
+                  <template v-slot:aside>
+                    <b-img
+                      src="https://picsum.photos/30/30/?image=41"
+                      fluid
+                      rounded="circle"
+                    ></b-img>
+                  </template>
+
+                  <h5 class="mt-0">Alice <small>2020</small></h5>
+                  <p>this is a comment</p>
+                  <small>
+                    <a
+                      href="#"
+                      data-commentid="1"
+                      data-commentusername="0"
+                      @click="replay($event)"
+                      >回复</a
+                    >
+                  </small>
+
+                  <b-media>
+                    <template v-slot:aside>
+                      <b-img
+                        src="https://picsum.photos/30/30/?image=41"
+                        fluid
+                        rounded="circle"
+                      ></b-img>
+                    </template>
+
+                    <h5 class="mt-0">Bob</h5>
+                    <p class="mb-0">hello man!</p>
+                    <small>回复</small>
+                  </b-media>
+                </b-media>
+
+                <b-media>
+                  <template v-slot:aside>
+                    <b-img
+                      src="https://picsum.photos/30/30/?image=41"
+                      fluid
+                      rounded="circle"
+                    ></b-img>
+                  </template>
+                  <h5 class="mt-0">Jang</h5>
+                  <p class="mb-0">Hi</p>
+                  <small>回复</small>
+                </b-media>
+              </b-card-body>
+
+              <!-- 底部 -->
+              <template v-slot:footer>
+                <b-form-input
+                  id="blog-id"
+                  hidden
+                  :value="blogs.id"
+                ></b-form-input>
+                <b-form-input hidden id="parent-id" value="0"></b-form-input>
+                <!-- 评论列表 -->
+                <b-form-textarea
+                  id="content"
+                  v-model="content"
+                  placeholder="请输入评论信息..."
+                ></b-form-textarea>
+                <b-row style="margin-top: 1vh">
+                  <b-col sm="5">
+                    <b-form-input
+                      v-model="username"
+                      placeholder="请输入名称"
+                    ></b-form-input>
+                  </b-col>
+                  <b-col>
+                    <b-button variant="info" @click="save">发布</b-button>
+                  </b-col>
+                </b-row>
+              </template>
             </b-card>
           </b-card-group>
         </b-col>
@@ -73,7 +154,7 @@
 
       <div class="m-padding m-fixed m-right-bottom">
         <b-button-group vertical>
-          <b-button variant="info" >
+          <b-button variant="info">
             <b-icon icon="list"></b-icon>
           </b-button>
           <a href="#" class="btn btn-secondary"
@@ -94,7 +175,8 @@ import "@/assets/css/typo.css";
 // import "tocbot/dist/tocbot.css"
 import tocbot from "tocbot";
 // markdown-body
-import storageService from "@/api/system/storageApi";
+import storageApi from "@/api/system/storageApi";
+import { save } from "@/api/system/commentApi";
 export default {
   components: {
     VueMarkdown,
@@ -102,11 +184,44 @@ export default {
   data() {
     return {
       blogs: "",
+      username: "",
+      content: "",
     };
   },
-  methods: {},
+  methods: {
+    replay(e) {
+      // 获取自定义的属性值
+      let commentId = e.target.getAttribute("data-commentid");
+      let commentUsername = e.target.getAttribute("data-commentusername");
+      // 修改placeholder的值并获取焦点
+      document
+        .getElementById("content")
+        .setAttribute("placeholder", "@" + commentUsername);
+      document.getElementById("content").focus();
+      // 给隐藏域赋值
+      document.getElementById("parent-id").value = commentId;
+    },
+    save() {
+      const options = {
+        // params: {
+        blog_id: document.getElementById("blog-id").value,
+        parent_id: document.getElementById("parent-id").value,
+        username: this.username,
+        content: this.content,
+        // }
+      };
+      save(options).then((res) => {
+        if (res.data.state) {
+          alert("success");
+          // console.log(this.comment)
+        } else {
+          alert("error");
+        }
+      });
+    },
+  },
   created() {
-    this.blogs = JSON.parse(storageService.get("blogs"));
+    this.blogs = JSON.parse(storageApi.get("blogs"));
   },
   mounted() {
     tocbot.init({
@@ -154,5 +269,11 @@ a.disabled {
 }
 .m-padding {
   padding: 1.5em;
+}
+.footer-button {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
 }
 </style>

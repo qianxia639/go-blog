@@ -52,7 +52,7 @@
 <script>
 import { getArchiveList } from "@/api/example/archiveApi";
 import { getBlog } from "@/api/example/blogApi";
-import storageService from "@/api/system/storageApi";
+import storageApi from "@/api/system/storageApi";
 import Moment from "moment";
 export default {
   data() {
@@ -77,7 +77,7 @@ export default {
     getBlog(id) {
       getBlog({ id: id }).then((res) => {
         if (res.data.state) {
-          storageService.set("blogs", JSON.stringify(res.data.data.blogs));
+          storageApi.set("blogs", JSON.stringify(res.data.data.blogs));
           this.$router.push({ name: "Blog" });
         }
       });

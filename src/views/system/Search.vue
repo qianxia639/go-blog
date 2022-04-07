@@ -101,7 +101,7 @@
 
 <script>
 import { getBlog } from "@/api/example/blogApi";
-import storageService from "@/api/system/storageApi";
+import storageApi from "@/api/system/storageApi";
 export default {
   data() {
     return {
@@ -114,7 +114,7 @@ export default {
     getBlog(id) {
       getBlog({ id: id }).then((res) => {
         if (res.data.state) {
-          storageService.set("blogs", JSON.stringify(res.data.data.blogs));
+          storageApi.set("blogs", JSON.stringify(res.data.data.blogs));
           let url = this.$router.resolve({ name: "Blog" });
           window.open(url.href, "_blank");
         }
