@@ -34,3 +34,14 @@ export const typeList = () => {
 export const typePageList = ({...data}) => {
     return service.get('/type/page',{...data})
 }
+
+/**
+ * 新增分类
+ */
+export const insertType = (data) => {
+    return service({
+        url: '/type/save',
+        method: 'post',
+        data
+    })
+}

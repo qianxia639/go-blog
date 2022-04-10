@@ -15,11 +15,9 @@
                   <b-media no-body tag="li">
                     <b-media-body class="ml-3">
                       <h5 class="mb-1" style="margin-top: 2vh">
-                        <b-link
-                          @click="getBlog(item.id)"
-                          class="card-link"
-                          >{{ item.title }}</b-link
-                        >
+                        <b-link @click="getBlog(item.id)" class="card-link">{{
+                          item.title
+                        }}</b-link>
                       </h5>
 
                       <p class="text-justify" style="max-width: 320px">
@@ -36,7 +34,9 @@
                       <b-link to="/account/login" class="card-link">{{
                         item.username
                       }}</b-link>
-                      <b-link disabled class="card-link">{{ timestampToTime(item.updatedAt, "YYYY-MM-DD") }}</b-link>
+                      <b-link disabled class="card-link">{{
+                        timestampToTime(item.updatedAt, "YYYY-MM-DD")
+                      }}</b-link>
 
                       <br />
                       <div class="d-flex justify-content-between">
@@ -74,7 +74,22 @@
         <!-- right type -->
         <b-col style="margin-top: 5vh" md="4">
           <b-card-group deck>
-            <b-card no-body header="分类" header-tag="header">
+            <b-card no-body header-tag="header">
+              <template v-slot:header>
+                <b-row>
+                  <b-col md="10">
+                    <header class="text-info">分类</header>
+                  </b-col>
+                  <b-col md="2">
+                    <b-icon
+                      variant="info"
+                      scale="1.5"
+                      v-b-modal.insert-type-modal
+                      icon="plus"
+                    ></b-icon>
+                  </b-col>
+                </b-row>
+              </template>
               <b-list-group>
                 <b-list-group-item>
                   <b-button
@@ -92,6 +107,30 @@
               </b-list-group>
             </b-card>
           </b-card-group>
+          <!-- 新增分类模态框 -->
+          <b-modal
+            id="insert-type-modal"
+            hide-backdrop
+            size="sm"
+            title="新增分类"
+            ref="close-insert-modal"
+          >
+            <b-form>
+              <b-input-group>
+                <b-form-input v-model="typeName" type="text" required>
+                </b-form-input>
+              </b-input-group>
+            </b-form>
+            <template v-slot:modal-footer>
+              <b-button
+                size="sm"
+                @click="insertType"
+                data-dissmiss="modal"
+                variant="info"
+                >添加</b-button
+              >
+            </template>
+          </b-modal>
         </b-col>
       </b-row>
     </b-container>
@@ -99,7 +138,7 @@
 </template>
 
 <script>
-import { typeList, typePageList } from "@/api/example/typeApi";
+import { typeList, typePageList, insertType } from "@/api/example/typeApi";
 import { getBlog, pageList } from "@/api/example/blogApi";
 import storageApi from "@/api/system/storageApi";
 import Moment from "moment";
@@ -115,6 +154,7 @@ export default {
         pageSize: 6,
         pageNum: 1,
       },
+      typeName: "",
     };
   },
   methods: {
@@ -167,6 +207,19 @@ export default {
           this.$router.push({ path: "/blog" });
         }
       });
+    },
+    // 新增分类
+    insertType() {
+      insertType({ typeName: this.typeName })
+        .then((res) => {
+          if (res.data.state) {
+            this.$message({ message: res.data.msg, type: "success" });
+            this.$refs["close-insert-modal"].hide();
+          }
+        })
+        .catch((err) => {
+          this.$message({ message: err.response.data.msg, type: "error" });
+        });
     },
   },
   created() {

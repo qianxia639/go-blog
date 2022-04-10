@@ -43,9 +43,7 @@
 
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto" v-if="!userInfo">
-          <b-nav-item to="/account/login"
-            >登录</b-nav-item
-          >
+          <b-nav-item to="/account/login">登录</b-nav-item>
           <!-- <b-nav-item v-if="$route.name != 'Register'" to="/account/register"
             >注册</b-nav-item
           > -->
@@ -76,9 +74,9 @@
         v-if="userInfo"
         id="userInfo-modal"
         hide-backdrop
+        :hide-footer="true"
         title="个人信息"
       >
-
         <b-form-group
           label-cols-sm="2"
           label="用户名"
@@ -92,9 +90,6 @@
             id="nested-username"
           ></b-form-input>
         </b-form-group>
-        <template v-slot:modal-footer="{ cancel }">
-          <b-button size="sm" @click="cancel()">关闭</b-button>
-        </template>
       </b-modal>
     </b-container>
   </b-navbar>
@@ -115,7 +110,7 @@ export default {
   },
   methods: {
     logout() {
-      storageApi.clear()
+      storageApi.clear();
       window.location.href = "/";
     },
     update(username) {
