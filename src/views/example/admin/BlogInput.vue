@@ -219,7 +219,7 @@ export default {
       },
       title: {
         required,
-        maxLength: maxLength(15),
+        maxLength: maxLength(20),
       },
       flag: {
         required,
@@ -287,7 +287,7 @@ export default {
         .then((res) => {
           if (res.data.state) {
             // this.uploadImg()
-            // this.$router.replace({ name: "Index" });
+            this.$router.replace({ name: "Index" });
             this.$message({ message: "发布成功", type: "success" });
           }
         })

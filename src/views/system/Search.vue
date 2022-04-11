@@ -29,13 +29,14 @@
                           @click="getBlog(item.id)"
                           class="card-link"
                           target="_blank"
-                          >{{ item.title }}</b-link
+                          v-html="item.title"
+                          >{</b-link
                         >
                       </h5>
 
                       <!-- 内容 -->
-                      <p class="text-justify" style="max-width: 320px">
-                        {{ item.description }}
+                      <p class="text-justify" style="max-width: 320px" v-html="item.description">
+                        
                       </p>
 
                       <!-- 头像 -->
@@ -65,7 +66,7 @@
                         <small class="text-muted">
                           <b-icon icon="tag-fill"></b-icon>
                           &nbsp;<span
-                            v-for="row in item.Tags"
+                            v-for="row in item.tags"
                             :key="row.index"
                             >{{ row.tagName + "\、" }}</span
                           >

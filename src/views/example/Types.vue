@@ -74,21 +74,17 @@
         <!-- right type -->
         <b-col style="margin-top: 5vh" md="4">
           <b-card-group deck>
-            <b-card no-body header-tag="header">
+            <b-card no-body header-text-variant="info" header-tag="header">
               <template v-slot:header>
-                <b-row>
-                  <b-col md="10">
-                    <header class="text-info">分类</header>
-                  </b-col>
-                  <b-col md="2">
-                    <b-icon
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">分类</h5>
+                  <h5><b-icon
                       variant="info"
                       scale="1.5"
                       v-b-modal.insert-type-modal
                       icon="plus"
-                    ></b-icon>
-                  </b-col>
-                </b-row>
+                    ></b-icon></h5>
+                </div>
               </template>
               <b-list-group>
                 <b-list-group-item>

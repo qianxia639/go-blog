@@ -268,8 +268,8 @@ export default {
       };
       searchBlog(options).then((res) => {
         if (res.data.state) {
-          storageApi.setItem("total", res.data.data.total);
-          storageApi.setItem(
+          sessionStorage.setItem("total", res.data.data.total);
+          sessionStorage.setItem(
             "searchList",
             JSON.stringify(res.data.data.dataList)
           );
