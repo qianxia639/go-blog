@@ -102,8 +102,8 @@ export default {
   name: "Navbar",
   computed: {
     userInfo() {
-      return storageApi.get(storageApi.USER_INFO)
-        ? JSON.parse(storageApi.get(storageApi.USER_INFO))
+      return storageApi.get(storageApi.INFO)
+        ? JSON.parse(storageApi.get(storageApi.INFO))
         : null;
       // return this.$store.state.userModule.userInfo
     },
@@ -122,7 +122,7 @@ export default {
         .then((resp) => {
           if (resp.data.state) {
             storageApi.set(
-              storageApi.USER_INFO,
+              storageApi.INFO,
               JSON.stringify(resp.data.data.user)
             );
             location.reload();

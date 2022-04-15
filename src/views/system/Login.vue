@@ -31,6 +31,7 @@
                 type="password"
                 placeholder="请输入密码"
                 :state="validateState('password')"
+                @keyup.enter="login"
               ></b-form-input>
               <b-form-invalid-feedback :state="validateState('password')">
                 密码必须包含数字与字母,且长度在6-15之间
@@ -88,14 +89,14 @@ export default {
       login(this.user)
         .then((res) => {
           // 保存token
-          storageService.set(storageService.USER_TOKEN, res.data.data.token);
+          storageService.set(storageService.TOKEN, res.data.data.token);
           //  window.location.href = "/";
           return info();
         })
         .then((resp) => {
           // 保存用户信息
           storageService.set(
-            storageService.USER_INFO,
+            storageService.INFO,
             JSON.stringify(resp.data.data.user)
           );
           //跳转首页

@@ -12,7 +12,7 @@
                 </div>
               </template>
               <ul class="list-unstyled">
-                <span v-if="blogList == null" class="text-center"
+                <span v-if="total === 0" class="text-center"
                   >查无结果</span
                 >
                 <b-card
@@ -35,9 +35,11 @@
                       </h5>
 
                       <!-- 内容 -->
-                      <p class="text-justify" style="max-width: 320px" v-html="item.description">
-                        
-                      </p>
+                      <p
+                        class="text-justify"
+                        style="max-width: 320px"
+                        v-html="item.description"
+                      ></p>
 
                       <!-- 头像 -->
                       <b-link href="#" class="card-link">
@@ -91,7 +93,16 @@
                   </b-media>
                 </b-card>
               </ul>
-              <b-card-footer> </b-card-footer>
+              <b-card-footer>
+                <!-- 分页 -->
+                <pagination
+                  v-model="pageNum"
+                  :records="total"
+                  :per-page="pageSize"
+                  @paginate="callback"
+                  :options="options"
+                ></pagination>
+              </b-card-footer>
             </b-card>
           </b-card-group>
         </b-col>
@@ -108,6 +119,13 @@ export default {
     return {
       blogList: "",
       total: 0,
+      pageNum: 1,
+      pageSize: 10,
+      options: {
+        chunk: 5,
+        edgeNavigation: true,
+        theme: "bootstrap4",
+      },
     };
   },
   methods: {
@@ -121,10 +139,15 @@ export default {
         }
       });
     },
+    callback() {
+      this.total = this.$route.params.total;
+      this.pageNum = this.$route.params.pageNum;
+      this.pageSize = this.$route.params.pageSize;
+      this.blogList = this.$route.params.searchBlogList;
+    },
   },
   created() {
-    this.total = sessionStorage.getItem("total");
-    this.blogList = JSON.parse(sessionStorage.getItem("searchList"));
+    this.callback();
   },
 };
 </script>

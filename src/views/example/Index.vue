@@ -55,7 +55,9 @@
                       }}</b-link>
 
                       <!-- 更新时间 -->
-                      <b-link disabled class="card-link">{{ timestampToTime(item.updatedAt, "YYYY-MM-DD") }}</b-link>
+                      <b-link disabled class="card-link">{{
+                        timestampToTime(item.updatedAt, "YYYY-MM-DD")
+                      }}</b-link>
 
                       <br />
 
@@ -91,13 +93,13 @@
               </ul>
               <b-list-group-item>
                 <!-- 分页 -->
-                <b-pagination
+                <pagination
                   v-model="pages.pageNum"
-                  :total-rows="pages.total"
+                  :records="pages.total"
                   :per-page="pages.pageSize"
-                  align="right"
-                >
-                </b-pagination>
+                  @paginate="blogPageList"
+                  :options="pages.options"
+                ></pagination>
               </b-list-group-item>
             </b-card>
           </b-card-group>
@@ -115,7 +117,7 @@
             class="mb-2"
             type="text"
             required
-            v-model="query"
+            v-model.trim="query"
             placeholder="按回车进行搜索"
             v-on:keyup.enter="searchBlog"
           ></b-form-input>
@@ -191,16 +193,16 @@ export default {
   // name: "Navbar",
   // computed: {
   //   userInfo() {
-  //     return storageApi.get(storageApi.USER_INFO)
-  //       ? JSON.parse(storageApi.get(storageApi.USER_INFO))
+  //     return storageApi.get(storageApi.INFO)
+  //       ? JSON.parse(storageApi.get(storageApi.INFO))
   //       : null;
   //     // return this.$store.state.userModule.userInfo
   //   },
   // },
   data() {
     return {
-      userInfo: storageApi.get(storageApi.USER_INFO)
-        ? JSON.parse(storageApi.get(storageApi.USER_INFO))
+      userInfo: storageApi.get(storageApi.INFO)
+        ? JSON.parse(storageApi.get(storageApi.INFO))
         : null,
       typeList: [],
       pageInfo: [],
@@ -208,8 +210,13 @@ export default {
       colors: ["primary", "secondary", "success", "dark", "info"],
       pages: {
         total: 0,
-        pageSize: 6,
+        pageSize: 5,
         pageNum: 1,
+        options: {
+          chunk: 5,
+          edgeNavigation: true,
+          theme: "bootstrap4",
+        }
       },
       query: "",
     };
@@ -226,7 +233,7 @@ export default {
       });
     },
     // 博客展示及分页
-    getBlogList() {
+    blogPageList() {
       const options = {
         params: {
           pageSize: this.pages.pageSize,
@@ -261,24 +268,34 @@ export default {
     },
     // 搜索
     searchBlog() {
+      if (this.query == "") {
+        alert("请输入搜索内容");
+        return;
+      }
       const options = {
         params: {
           query: this.query,
+          pageNum: 1,
+          pageSize: 10
         },
       };
       searchBlog(options).then((res) => {
         if (res.data.state) {
-          sessionStorage.setItem("total", res.data.data.total);
-          sessionStorage.setItem(
-            "searchList",
-            JSON.stringify(res.data.data.dataList)
-          );
+          // sessionStorage.setItem("total", res.data.data.total);
+          // sessionStorage.setItem("pageNum", res.data.data.pageNum);
+          // sessionStorage.setItem("pageSize", res.data.data.pageSize);
+          // sessionStorage.setItem(
+          //   "searchList",
+          //   JSON.stringify(res.data.data.dataList)
+          // );
           this.$router.push({
             name: "Search",
-            // params: {
-            //   total: res.data.data.total,
-            //   searchBlogList: res.data.data.dataList
-            // }
+            params: {
+              total: res.data.data.total,
+              searchBlogList: res.data.data.dataList,
+              pageNum: res.data.data.pageNum,
+              pageSize: res.data.data.pageSize,
+            }
           });
         }
       });
@@ -287,7 +304,7 @@ export default {
   created() {
     this.getTypeList();
     this.getLatestList();
-    this.getBlogList();
+    this.blogPageList();
   },
 };
 </script>

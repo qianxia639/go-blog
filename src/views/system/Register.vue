@@ -47,6 +47,7 @@
                 type="password"
                 placeholder="请再次输入密码"
                 :state="validateState('checkPwd')"
+                 @keyup.enter="register"
               ></b-form-input>
               <b-form-invalid-feedback :state="validateState('checkPwd')">
                 两次密码必须要相同

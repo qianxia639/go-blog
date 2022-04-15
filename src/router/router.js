@@ -98,7 +98,7 @@ const router = new Router({
 })
 
 // router.beforeEach((to, from, next) => {
-//   const isLogin = storageService.get(storageService.USER_TOKEN)
+//   const isLogin = storageService.get(storageService.TOKEN)
 //   if (to.path == '/account/login' || to.path == '/account/register' || to.path == '/types' || to.path == '/index') {
 //     next();
 //   } else {

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router'
-import store from './store'
+import router from './router/router'
+import store from './store/store'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import Vuelidate from 'vuelidate'
 import axios from 'axios'
@@ -20,6 +20,10 @@ import Highlight from 'vue-markdown-highlight'
 import "highlight.js/styles/atom-one-dark.css";
 import showdown from 'showdown'
 import 'animate.css';
+
+import Pagination from 'vue-pagination-2'
+Vue.component('pagination', Pagination)
+
 
 Vue.config.productionTip = false
 // 配置showdown，md转html需要的

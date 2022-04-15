@@ -46,6 +46,7 @@
                   :ishljs="true"
                   @imgAdd="$imgAdd"
                   @imgDel="$imgDel"
+                  @save="uploadImg"
                   ref="md"
                 ></mavon-editor>
               </b-input-group>
@@ -286,8 +287,8 @@ export default {
       saveBlog(this.blog)
         .then((res) => {
           if (res.data.state) {
-            // this.uploadImg()
-            this.$router.replace({ name: "Index" });
+            this.uploadImg()
+            // this.$router.replace({ name: "Index" });
             this.$message({ message: "发布成功", type: "success" });
           }
         })
@@ -317,11 +318,11 @@ export default {
       // 将图片上传到服务器
       let formData = new FormData();
       for (var _img in this.img_file) {
-        formData.append("files", this.img_file[_img]);
+        formData.append(_img, this.img_file[_img]);
       }
       uploadFile(formData).then((res) => {
         for (var img in res.data.url) {
-          this.$refs.md.$img2Url(res.data.url[img]);
+          this.$refs.md.$img2Url(pos,res.data.url[img]);
         }
       });
     },

@@ -52,7 +52,7 @@
             <table
               id="my-table"
               style="margin-top: 1vh"
-              class="table table-sm table-striped table-hover table-bordered"
+              class="table table-sm table-hover table-bordered"
             >
               <thead>
                 <tr>

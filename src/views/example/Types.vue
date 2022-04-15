@@ -67,7 +67,16 @@
                   </b-media>
                 </b-card>
               </ul>
-              <b-list-group-item> </b-list-group-item>
+
+                <!-- 分页 -->
+                <pagination
+                  v-model="pages.pageNum"
+                  :records="pages.total"
+                  :per-page="pages.pageSize"
+                  @paginate="blogPageList"
+                  :options="pages.options"
+                ></pagination>
+
             </b-card>
           </b-card-group>
         </b-col>
@@ -149,6 +158,11 @@ export default {
         total: 0,
         pageSize: 6,
         pageNum: 1,
+        options: {
+          chunk: 5,
+          edgeNavigation: true,
+          theme: "bootstrap4",
+        }
       },
       typeName: "",
     };
@@ -165,18 +179,21 @@ export default {
       });
     },
     // 博客
-    getBlogList() {
+    blogPageList() {
       const options = {
         params: {
           pageSize: this.pages.pageSize,
           pageNum: this.pages.pageNum,
         },
       };
-      pageList(options).then((res) => {
-        this.pages.total = res.data.total;
-        this.pages.pageSize = res.data.pageSize;
-        this.pages.pageNum = res.data.pageNum;
-        this.pageInfo = res.data.data.dataList;
+      pageList(options).then((resp) => {
+        var res = resp.data.data;
+
+        this.pages.total = res.total;
+        this.pages.pageSize = res.pageSize;
+        this.pages.pageNum = res.pageNum;
+
+        this.pageInfo = res.dataList;
       });
     },
     // 点击分类进行博客的展示
@@ -188,11 +205,14 @@ export default {
           pageNum: this.pages.pageNum,
         },
       };
-      typePageList(options).then((res) => {
-        this.pages.total = res.data.total;
-        this.pages.pageSize = res.data.pageSize;
-        this.pages.pageNum = res.data.pageNum;
-        this.pageInfo = res.data.data.dataList;
+      typePageList(options).then((resp) => {
+        var res = resp.data.data;
+
+        this.pages.total = res.total;
+        this.pages.pageSize = res.pageSize;
+        this.pages.pageNum = res.pageNum;
+
+        this.pageInfo = res.dataList;
       });
     },
     // 点击博客标题跳转博客详情页
@@ -220,7 +240,7 @@ export default {
   },
   created() {
     this.getList();
-    this.getBlogList();
+    this.blogPageList();
   },
 };
 </script>
