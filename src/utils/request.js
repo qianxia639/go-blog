@@ -25,28 +25,28 @@ service.interceptors.response.use((resp) => {
     return resp
 }, (error) => {
 
-    if (err && err.response) {
-        switch (err.response.status) {
-            case 400:
-                err.message = "请求出错"
-                break;
-            case 401:
-                this.$message({message: "登录失败，请重新登录", type: 'error'})
-                setTimeout(() => {
-                    window.location.reload()
-                },1000)
-                break;
-            case 403:
-                err.message = "权限不足"
-                break;
-            case 404:
-                err.message = "404 Not Found"
-                break;
-            case 500:
-                err.message = "服务器连接失败"
-                break;
-        }
-    }
+    // if (error && error.response) {
+    //     switch (error.response.status) {
+    //         case 400:
+    //             error.message = "请求出错"
+    //             break;
+    //         case 401:
+    //             this.$message({message: "登录失败，请重新登录", type: 'error'})
+    //             setTimeout(() => {
+    //                 window.location.reload()
+    //             },1000)
+    //             break;
+    //         case 403:
+    //             error.message = "权限不足"
+    //             break;
+    //         case 404:
+    //             error.message = "404 Not Found"
+    //             break;
+    //         case 500:
+    //             error.message = "服务器连接失败"
+    //             break;
+    //     }
+    // }
 
     return Promise.reject(error)
 })

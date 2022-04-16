@@ -98,14 +98,15 @@
 <script>
 import storageApi from "@/api/system/storageApi";
 import { updateUsername, info } from "@/api/system/userApi";
+import global from "@/global/index";
 export default {
   name: "Navbar",
   computed: {
     userInfo() {
+      // return this.$store.state.userModule.userInfo
       return storageApi.get(storageApi.INFO)
         ? JSON.parse(storageApi.get(storageApi.INFO))
         : null;
-      // return this.$store.state.userModule.userInfo
     },
   },
   methods: {
@@ -121,10 +122,11 @@ export default {
         })
         .then((resp) => {
           if (resp.data.state) {
-            storageApi.set(
-              storageApi.INFO,
-              JSON.stringify(resp.data.data.user)
-            );
+            // storageApi.set(
+            //   storageApi.INFO,
+            //   JSON.stringify(resp.data.data.user)
+            // );
+            this.global.userInfo = resp.data.data.user;
             location.reload();
           }
         });

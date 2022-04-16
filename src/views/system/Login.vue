@@ -49,10 +49,11 @@
 </template>
 
 <script>
-import { required,email } from "vuelidate/lib/validators";
+import { required, email } from "vuelidate/lib/validators";
 import validator from "@/utils/validator";
 import storageService from "@/api/system/storageApi";
 import { login, info } from "@/api/system/userApi";
+import global from '@/global/index'
 export default {
   data() {
     return {
@@ -66,7 +67,7 @@ export default {
     user: {
       email: {
         required,
-        email
+        email,
       },
       password: {
         required,
@@ -89,6 +90,7 @@ export default {
       login(this.user)
         .then((res) => {
           // 保存token
+          // this.$store.commit('SET_TOKEN', res.data.data.token);
           storageService.set(storageService.TOKEN, res.data.data.token);
           //  window.location.href = "/";
           return info();
@@ -99,6 +101,8 @@ export default {
             storageService.INFO,
             JSON.stringify(resp.data.data.user)
           );
+          this.$store.commit('SET_USERINFO', resp.data.data.user);
+          // global.userInfo = resp.data.data.user
           //跳转首页
           // this.$router.replace({ name: "Index" });
           window.location.href = "/index";
@@ -109,7 +113,7 @@ export default {
           //   variant: "danger",
           //   solid: true,
           // });
-          this.$message({message: err.response.data.msg, type: 'error'})
+          this.$message({ message: err.response.data.msg, type: "error" });
         });
     },
   },

@@ -13,8 +13,8 @@ const get = (key) => localStorage.getItem(key)
 
 // 删除
 const clear = () => {
-    localStorage.removeItem(USER_TOKEN)
-    localStorage.removeItem(USER_INFO)
+    localStorage.removeItem(TOKEN)
+    localStorage.removeItem(INFO)
 }
 
 export default {
