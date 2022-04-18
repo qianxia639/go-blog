@@ -83,6 +83,14 @@ const routes = [
     }
   },
   {
+    path: '/leave',
+    name: 'Leave',
+    component: () => import('@/views/system/Leave.vue'),
+    meta: {
+      title: '留言墙'
+    }
+  },
+  {
     path: '/search',
     name: 'Search',
     component: () => import('@/views/system/Search.vue'),

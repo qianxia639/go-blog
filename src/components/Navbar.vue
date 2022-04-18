@@ -32,7 +32,7 @@
             <small><b-icon icon="stickies"></b-icon></small> 归档
           </b-nav-item>
           <!-- chat -->
-          <b-nav-item>
+          <b-nav-item to="/leave">
             <small><b-icon icon="chat"></b-icon></small>留言墙
           </b-nav-item>
           <!-- info -->
