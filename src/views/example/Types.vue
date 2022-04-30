@@ -70,7 +70,7 @@
 
                 <!-- 分页 -->
                 <pagination
-                  v-model="pages.pageNum"
+                  v-model="pages.pageNo"
                   :records="pages.total"
                   :per-page="pages.pageSize"
                   @paginate="blogPageList"
@@ -157,7 +157,7 @@ export default {
       pages: {
         total: 0,
         pageSize: 6,
-        pageNum: 1,
+        pageNo: 1,
         options: {
           chunk: 5,
           edgeNavigation: true,
@@ -183,7 +183,7 @@ export default {
       const options = {
         params: {
           pageSize: this.pages.pageSize,
-          pageNum: this.pages.pageNum,
+          pageNo: this.pages.pageNo,
         },
       };
       pageList(options).then((resp) => {
@@ -191,7 +191,7 @@ export default {
 
         this.pages.total = res.total;
         this.pages.pageSize = res.pageSize;
-        this.pages.pageNum = res.pageNum;
+        this.pages.pageNo = res.pageNo;
 
         this.pageInfo = res.dataList;
       });
@@ -202,7 +202,7 @@ export default {
         params: {
           id: id,
           pageSize: this.pages.pageSize,
-          pageNum: this.pages.pageNum,
+          pageNo: this.pages.pageNo,
         },
       };
       typePageList(options).then((resp) => {
@@ -210,7 +210,7 @@ export default {
 
         this.pages.total = res.total;
         this.pages.pageSize = res.pageSize;
-        this.pages.pageNum = res.pageNum;
+        this.pages.pageNo = res.pageNo;
 
         this.pageInfo = res.dataList;
       });

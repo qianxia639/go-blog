@@ -96,7 +96,7 @@
               <b-card-footer>
                 <!-- 分页 -->
                 <pagination
-                  v-model="pageNum"
+                  v-model="pageNo"
                   :records="total"
                   :per-page="pageSize"
                   @paginate="callback"
@@ -119,7 +119,7 @@ export default {
     return {
       blogList: "",
       total: 0,
-      pageNum: 1,
+      pageNo: 1,
       pageSize: 10,
       options: {
         chunk: 5,
@@ -141,7 +141,7 @@ export default {
     },
     callback() {
       this.total = this.$route.params.total;
-      this.pageNum = this.$route.params.pageNum;
+      this.pageNo = this.$route.params.pageNo;
       this.pageSize = this.$route.params.pageSize;
       this.blogList = this.$route.params.searchBlogList;
     },

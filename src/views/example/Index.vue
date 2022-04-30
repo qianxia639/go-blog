@@ -94,7 +94,7 @@
               <b-list-group-item>
                 <!-- 分页 -->
                 <pagination
-                  v-model="pages.pageNum"
+                  v-model="pages.pageNo"
                   :records="pages.total"
                   :per-page="pages.pageSize"
                   @paginate="blogPageList"
@@ -211,7 +211,7 @@ export default {
       pages: {
         total: 0,
         pageSize: 5,
-        pageNum: 1,
+        pageNo: 1,
         options: {
           chunk: 5,
           edgeNavigation: true,
@@ -237,7 +237,7 @@ export default {
       const options = {
         params: {
           pageSize: this.pages.pageSize,
-          pageNum: this.pages.pageNum,
+          pageNo: this.pages.pageNo,
         },
       };
       pageList(options).then((resp) => {
@@ -245,7 +245,7 @@ export default {
 
         this.pages.total = res.total;
         this.pages.pageSize = res.pageSize;
-        this.pages.pageNum = res.pageNum;
+        this.pages.pageNo = res.pageNo;
 
         this.pageInfo = res.dataList;
       });
@@ -275,14 +275,14 @@ export default {
       const options = {
         params: {
           query: this.query,
-          pageNum: 1,
+          pageNo: 1,
           pageSize: 10
         },
       };
       searchBlog(options).then((res) => {
         if (res.data.state) {
           // sessionStorage.setItem("total", res.data.data.total);
-          // sessionStorage.setItem("pageNum", res.data.data.pageNum);
+          // sessionStorage.setItem("pageNo", res.data.data.pageNo);
           // sessionStorage.setItem("pageSize", res.data.data.pageSize);
           // sessionStorage.setItem(
           //   "searchList",
@@ -293,7 +293,7 @@ export default {
             params: {
               total: res.data.data.total,
               searchBlogList: res.data.data.dataList,
-              pageNum: res.data.data.pageNum,
+              pageNo: res.data.data.pageNo,
               pageSize: res.data.data.pageSize,
             }
           });

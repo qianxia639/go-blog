@@ -6,7 +6,7 @@
     variant="secondary"
     style="z-index: 2"
   >
-    <b-container>
+    <!-- <b-container> -->
       <b-navbar-brand href="/index" style="color: #48a1ee; font-size: 24px"
         >LYY_BLOG</b-navbar-brand
       >
@@ -91,14 +91,13 @@
           ></b-form-input>
         </b-form-group>
       </b-modal>
-    </b-container>
+    <!-- </b-container> -->
   </b-navbar>
 </template>
 
 <script>
 import storageApi from "@/api/system/storageApi";
 import { updateUsername, info } from "@/api/system/userApi";
-import global from "@/global/index";
 export default {
   name: "Navbar",
   computed: {
@@ -122,11 +121,10 @@ export default {
         })
         .then((resp) => {
           if (resp.data.state) {
-            // storageApi.set(
-            //   storageApi.INFO,
-            //   JSON.stringify(resp.data.data.user)
-            // );
-            this.global.userInfo = resp.data.data.user;
+            storageApi.set(
+              storageApi.INFO,
+              JSON.stringify(resp.data.data.user)
+            );
             location.reload();
           }
         });

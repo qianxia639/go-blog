@@ -82,7 +82,7 @@
               </tbody>
             </table>
             <b-pagination
-              v-model="pages.pageNum"
+              v-model="pages.pageNo"
               :total-rows="pages.total"
               :per-page="pages.pageSize"
               align="right"
@@ -188,7 +188,7 @@ export default {
       pages: {
         total: 0,
         pageSize: 10,
-        pageNum: 1,
+        pageNo: 1,
       },
       title: "",
       startDate: "",
@@ -237,7 +237,7 @@ export default {
       const options = {
         params: {
           pageSize: this.pages.perPage,
-          pageNum: this.pages.currentPage,
+          pageNo: this.pages.currentPage,
         },
       };
       blogList(options).then((resp) => {
@@ -245,7 +245,7 @@ export default {
 
         this.pages.total = res.total;
         this.pages.pageSize = res.pageSize;
-        this.pages.pageNum = res.pageNum;
+        this.pages.pageNo = res.pageNo;
         
         this.blogList = res.dataList;
       });
@@ -301,14 +301,14 @@ export default {
           startDate: this.startDate,
           endDate: this.endDate,
           pageSize: this.pages.pageSize,
-          pageNum: this.pages.pageNum,
+          pageNo: this.pages.pageNo,
         },
       };
       searchPriBlog(options).then((resp) => {
         var res = resp.data.data
         this.pages.total = res.total;
         this.pages.pageSize = res.pageSize;
-        this.pages.pageNum = res.pageNum;
+        this.pages.pageNo = res.pageNo;
         this.blogList = res.dataList;
       });
     },

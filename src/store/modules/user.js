@@ -1,11 +1,10 @@
 import storageApi from "@/api/system/storageApi";
-import global from '@/global/index'
 
 const userModule = {
-    // namespaced: true,
+    namespaced: true,
     state: {
         token: storageApi.get(storageApi.TOKEN),
-        userInfo: global.userInfo
+        userInfo: JSON.parse(storageApi.get(storageApi.INFO))
     },
     mutations: {
         SET_TOKEN(state,token) {
@@ -16,7 +15,7 @@ const userModule = {
         },
         SET_USERINFO(state,userInfo) {
             // 更新本地缓存
-            this.global.userInfo = JSON.stringify(userInfo)
+            storageApi.set(storageApi.INFO,JSON.stringify(userInfo))
             // 更新state
             state.userInfo = userInfo
         }
